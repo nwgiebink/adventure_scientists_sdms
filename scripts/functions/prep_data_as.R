@@ -40,14 +40,47 @@ prep_data = function(data, env_raster) {
   # Crop bioclim data to geographic extent of species
   env_raster_cropped <- crop(x = env_raster, y = geographic_extent)
   
+  # splitting into the two data sets
+  df_inat = small_data %>% 
+    filter(provider == "iNat")
+  
+  df_all = small_data
+  
+  # Generate 10k background points for each one. 
+  bg_inat = dismo::randomPoints(bv_t2, 10000)
+  colnames(bg_inat) = c("longitude", "latitude")
+  
+  bg_all = randomPoints(bv_t2, 10000)
+  colnames(bg_all) = c("longitude", "latitude")
+  
+  # Merging background data and occurence data
+  df_comb_inat = data.frame(df_inat) %>%
+    mutate(pb = 1) %>%
+    dplyr::select(pb, longitude, latitude) %>%
+    bind_rows(data.frame(bg_inat) %>% 
+                mutate(pb = 0))  %>%
+    mutate(Species = as.integer(pb)) %>%
+    dplyr::select(-pb)
+  
+  df_comb_all = data.frame(df_all) %>%
+    mutate(pb = 1) %>%
+    dplyr::select(pb, longitude, latitude) %>%
+    bind_rows(data.frame(bg_all) %>% 
+                mutate(pb = 0)) %>%
+    mutate(Species = as.integer(pb)) %>%
+    dplyr::select(-pb)
   
   # Changing to a spatial points data frame
-  df_sp = SpatialPointsDataFrame(small_data[,c("longitude","latitude")], 
-                                    small_data, 
-                                    proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")) 
-
+  df_sp_inat = SpatialPointsDataFrame(df_comb_inat[,c("longitude","latitude")], 
+                                    df_comb_inat, 
+                                    proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+  
+  df_sp_all = SpatialPointsDataFrame(df_comb_all[,c("longitude","latitude")], 
+                                  df_comb_all, 
+                                  proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+  
   #Converting to a list with the two dataframes
-  prepared_data_list = list(data = df_sp,
+  prepared_data_list = list(data = list(inat = df_sp_inat, all = df_sp_all),
                             env_data_cropped = env_raster_cropped)
   #Names
   bio_names = c()
