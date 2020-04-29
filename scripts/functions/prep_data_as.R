@@ -35,7 +35,7 @@ prep_data = function(data, env_raster) {
   min_lon = floor(min(small_data$longitude))
   
   # added a 1º buffer in every direction
-  geographic_extent <- extent(x = c(min_lon-1, max_lon+1, min_lat-1, max_lat+1))
+  geographic_extent <- extent(x = c(min_lon-0.5, max_lon+0.5, min_lat-0.5, max_lat+0.5))
   
   # Crop bioclim data to geographic extent of species
   env_raster_cropped <- crop(x = env_raster, y = geographic_extent)
@@ -47,10 +47,10 @@ prep_data = function(data, env_raster) {
   df_all = small_data
   
   # Generate 10k background points for each one. 
-  bg_inat = dismo::randomPoints(bv_t2, 10000)
+  bg_inat = dismo::randomPoints(env_raster_cropped, 10000)
   colnames(bg_inat) = c("longitude", "latitude")
   
-  bg_all = randomPoints(bv_t2, 10000)
+  bg_all = randomPoints(env_raster_cropped, 10000)
   colnames(bg_all) = c("longitude", "latitude")
   
   # Merging background data and occurence data

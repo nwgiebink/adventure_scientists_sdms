@@ -20,7 +20,7 @@ require(blockCV)
 run_block_cv = function(prepped_data, bv_raster){
   
   blocked = spatialBlock(speciesData = prepped_data,
-                         species = "name",
+                         species = "Species",
                          rasterLayer = bv_raster,
                          theRange = 400000,
                          k = 5, 
