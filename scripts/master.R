@@ -6,7 +6,7 @@ spec = commandArgs()[[6]]
 filename = paste0("./data/split_data/", spec)
 
 # Running a specific species
-test_obj = build_sdm(filename = filename, 
+test_obj = build_sdm_as(filename = filename, 
                      env_raster = bv_t2,
                      cores = 14)
 

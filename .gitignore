@@ -40,3 +40,4 @@ vignettes/*.pdf
 
 # misc
 README.html
+*.rds
