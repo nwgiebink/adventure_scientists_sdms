@@ -40,3 +40,15 @@ vignettes/*.pdf
 
 # misc
 README.html
+
+# big rds files in data and output
+*.rds
+
+# NF Shapefiles
+*.cpg
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.shp
+*.shx
