@@ -202,5 +202,10 @@ make_map_time_compare_threshold = function(species_rds_out,
 
 
 # Testing
+<<<<<<< HEAD
 # make_map_time_compare_threshold(species_rds_out = "./output/aglais_milberti.rds",
 #                        bv_t2)
+=======
+make_map_time_compare_threshold(species_rds_out = "./output/aglais_milberti.rds",
+                       bv_t2)
+>>>>>>> 7b915eb8e8c945be06a2b7a0ecd9fc6eafdc69b2
