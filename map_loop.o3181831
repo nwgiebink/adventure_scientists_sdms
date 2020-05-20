@@ -1,0 +1,18 @@
+Java interpreter : /etc/alternatives/java_sdk_1.8.0/jre/bin/java
+Java version     : 1.8.0_252
+Java home path   : /etc/alternatives/java_sdk_1.8.0
+Java compiler    : /etc/alternatives/java_sdk_1.8.0/bin/javac
+Java headers gen.: /etc/alternatives/java_sdk_1.8.0/bin/javah
+Java archive tool: /etc/alternatives/java_sdk_1.8.0/bin/jar
+
+trying to compile and link a JNI program 
+detected JNI cpp flags    : -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
+detected JNI linker flags : -L/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.252.b09-2.el6_10.x86_64/jre/lib/amd64/server -ljvm
+gcc -I"/cm/shared/uaapps/R/3.6.1/lib64/R/include" -DNDEBUG -I/etc/alternatives/java_sdk_1.8.0/include -I/etc/alternatives/java_sdk_1.8.0/include/linux  -I/cm/shared/uaapps/python/3.5.5/include/ -I/cm/shared/uaapps/curl/7.49.0/include -I/cm/shared/uaapps/pcre/8.38/include -I/cm/shared/uaapps/xz/5.2.2/include -I/cm/shared/uaapps/bzip2/1.0.6/include -I/cm/shared/uaapps/zlib/1.2.8/include  -fpic  -g -O2  -c conftest.c -o conftest.o
+gcc -shared -L/cm/shared/uaapps/R/3.6.1/lib64/R/lib -L/cm/shared/uaapps/python/3.5.5/lib/ -L/cm/shared/uaapps/curl/7.49.0/lib -L/cm/shared/uaapps/pcre/8.38/lib -L/cm/shared/uaapps/xz/5.2.2/lib -L/cm/shared/uaapps/bzip2/1.0.6/lib -L/cm/shared/uaapps/zlib/1.2.8/lib -o conftest.so conftest.o -L/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.252.b09-2.el6_10.x86_64/jre/lib/amd64/server -ljvm -L/cm/shared/uaapps/R/3.6.1/lib64/R/lib -lR
+
+The following Java variables have been exported:
+JAVA_HOME JAVA JAVAC JAVAH JAR JAVA_LIBS JAVA_CPPFLAGS JAVA_LD_LIBRARY_PATH
+Running: /bin/bash
+/pbs/ocelote/i10n0/mom_priv/jobs/3181831.head1.cm.cluster.SC: line 23: cd: /adventure_scientists_sdms/: No such file or directory
+Fatal error: cannot open file './scripts/mapping/map_loop_as.R': No such file or directory
