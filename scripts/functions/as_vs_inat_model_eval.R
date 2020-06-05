@@ -58,13 +58,17 @@ for(i in 1:length(to_run)){
                    inat_auc = inat_auc, 
                    as_auc = as_auc, 
                    inat_recall = inat_recall,
-                   as_recall = as_recall)
+                   as_recall = as_recall, 
+                   num_occ = dim(data$raw_data[1]))
   
   evals = rbind(evals, out)
   print(paste('Finished species:', species_name))
 }
 
 eval_table = evals %>% 
+  filter(num_occ != 1) %>%
+  arrange(desc(num_occ)) %>%
+  mutate(bin = ntile(num_occ, 3)) %>%
   mutate(species = str_to_sentence(str_replace(species, "_", " "))) %>%
   gt(rowname_col = "species") %>%
   tab_stubhead(label = "Species") %>%
@@ -74,8 +78,22 @@ eval_table = evals %>%
              as_auc  = "iNaturalist + AS AUC", 
              inat_recall = "iNaturalist Recall", 
              as_recall = "iNaturalist + AS Recall", 
-             species = "Species") %>%
+             species = "Species", 
+             num_occ = "Number of Occurrences", 
+             bin = "Bin") %>%
   tab_style(style = list(cell_text(style = "italic")), 
             locations = cells_stub())
 
-gtsave(eval_table, "./output/eval_summary_table.pdf")  
+gtsave(eval_table, "./output/eval_summary_table.pdf")
+
+# paired t.tests by bin
+to_test = evals %>% 
+  filter(num_occ != 1) %>%
+  arrange(desc(num_occ)) %>%
+  mutate(bin = ntile(num_occ, 3))
+
+split_data = split(to_test, to_test$bin)
+
+big_obs = t.test(split_data$`3`$inat_auc, split_data$`3`$as_auc, paired = TRUE)
+med_obs = t.test(split_data$`2`$inat_auc, split_data$`2`$as_auc, paired = TRUE)
+small_obs = t.test(split_data$`1`$inat_auc, split_data$`1`$as_auc, paired = TRUE)

@@ -117,10 +117,10 @@ save_thresholds = function(species_rds_out,
   
   # thresholded filter
   inat_threshold = pred_inat_df %>%
-    filter(value > thresh_inat)
+    mutate(ifelse(value > thresh_inat, 1, 0))
   
   all_threshold = pred_all_df %>%
-    filter(value > thresh_all)
+    mutate(ifelse(value > thresh_all, 1, 0))
   
   saveRDS(inat_threshold, file = paste0("./output/thresh_maps/", species, "_inat_thresh.rds"))
   saveRDS(all_threshold, file = paste0("./output/thresh_maps/", species, "_all_thresh.rds"))
